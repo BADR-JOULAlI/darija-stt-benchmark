@@ -1,0 +1,15 @@
+{
+  "index": "32",
+  "video_id": "eQzEUXZYlPU",
+  "youtube_url": "https://www.youtube.com/watch?v=eQzEUXZYlPU",
+  "title": "لسان لحم البقر  قليل لي يطيبو غير جربوه بهاد الطريقة",
+  "original_duration_seconds": "339.0",
+  "sample_start_seconds": "109.5",
+  "sample_end_seconds": "229.5",
+  "sample_duration_seconds": "120.0",
+  "status": "error",
+  "error": "Bad request: check the audio file and model name.",
+  "model": null,
+  "transcription": "",
+  "processing_time_seconds": 3.134089800005313
+}

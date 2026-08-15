@@ -1,0 +1,22 @@
+{
+  "index": "48",
+  "video_id": "uuVRsq1bXUE",
+  "youtube_url": "https://www.youtube.com/watch?v=uuVRsq1bXUE",
+  "title": "أغنية المنتخب المغربي كأس العالم 2026 | DIMA MAGHRIB (Allez Allez) Morocco World Cup Song",
+  "original_duration_seconds": "135.0",
+  "sample_start_seconds": "7.5",
+  "sample_end_seconds": "127.5",
+  "sample_duration_seconds": "120.0",
+  "status": "success",
+  "error": "",
+  "model": "darija-stt-solutions-2607",
+  "transcription": "لعبو بالكرينطة والنية هادي فرقة عالمية كرة زوينة ومغربية الشبكة غنقطعوها لعبو بالكرينطة والنية الخفة والقتالية كرة زوينة ومغربية كاع الماتشات غنربحوها عليو الراية في السما ديما مغرب عليه راية حمرا ونجمة خضرا في ميريكان غنديرو روينة",
+  "language": null,
+  "usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "prompt_audio_seconds": 120
+  },
+  "processing_time_seconds": 4.623535799997626
+}

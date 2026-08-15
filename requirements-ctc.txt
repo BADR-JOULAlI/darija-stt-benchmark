@@ -1,0 +1,7 @@
+# Install this file only on the machine selected for CTC inference/calibration.
+# GPU builds of torch/torchaudio should follow the official PyTorch selector.
+omnilingual-asr
+torch>=2.6
+torchaudio>=2.6
+transformers>=4.48
+scikit-learn>=1.6

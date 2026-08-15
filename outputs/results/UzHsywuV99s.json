@@ -1,0 +1,15 @@
+{
+  "index": "18",
+  "video_id": "UzHsywuV99s",
+  "youtube_url": "https://www.youtube.com/watch?v=UzHsywuV99s",
+  "title": "كلمات في الدارجة المغربية و العامية أصلها عربي فصيح | حميد الفتح",
+  "original_duration_seconds": "294.0",
+  "sample_start_seconds": "87.0",
+  "sample_end_seconds": "207.0",
+  "sample_duration_seconds": "120.0",
+  "status": "error",
+  "error": "Bad request: check the audio file and model name.",
+  "model": null,
+  "transcription": "",
+  "processing_time_seconds": 3.1256641000218224
+}

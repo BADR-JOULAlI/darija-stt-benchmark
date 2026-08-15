@@ -1,0 +1,22 @@
+{
+  "index": "43",
+  "video_id": "p9s7KNt8yoI",
+  "youtube_url": "https://www.youtube.com/watch?v=p9s7KNt8yoI",
+  "title": "الدّارجة المغربية - القواعد الصوتية",
+  "original_duration_seconds": "298.0",
+  "sample_start_seconds": "89.0",
+  "sample_end_seconds": "209.0",
+  "sample_duration_seconds": "120.0",
+  "status": "success",
+  "error": "",
+  "model": "darija-stt-solutions-2607",
+  "transcription": "donc إلا كنتي باغي دير la maintenance ديال واحد système ديالك",
+  "language": null,
+  "usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "prompt_audio_seconds": 120
+  },
+  "processing_time_seconds": 3.6547102999975323
+}

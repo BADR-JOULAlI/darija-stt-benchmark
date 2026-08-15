@@ -1,0 +1,15 @@
+{
+  "index": "10",
+  "video_id": "ofoOMJ6DIZM",
+  "youtube_url": "https://www.youtube.com/watch?v=ofoOMJ6DIZM",
+  "title": "تعلم اللهجة المغربية في 5 أيام (الجزء 1)",
+  "original_duration_seconds": "525.0",
+  "sample_start_seconds": "202.5",
+  "sample_end_seconds": "322.5",
+  "sample_duration_seconds": "120.0",
+  "status": "error",
+  "error": "Bad request: check the audio file and model name.",
+  "model": null,
+  "transcription": "",
+  "processing_time_seconds": 3.4626302999968175
+}

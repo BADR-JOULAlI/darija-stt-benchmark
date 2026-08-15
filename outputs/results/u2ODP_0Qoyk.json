@@ -1,0 +1,15 @@
+{
+  "index": "7",
+  "video_id": "u2ODP_0Qoyk",
+  "youtube_url": "https://www.youtube.com/watch?v=u2ODP_0Qoyk",
+  "title": "المفكر حسن أوريد الدارجة المغربية أمازيغية معربة #الأمازيغ #الأمازيغية #المغرب_الجزائر #العربية",
+  "original_duration_seconds": "555.0",
+  "sample_start_seconds": "217.5",
+  "sample_end_seconds": "337.5",
+  "sample_duration_seconds": "120.0",
+  "status": "error",
+  "error": "Bad request: check the audio file and model name.",
+  "model": null,
+  "transcription": "",
+  "processing_time_seconds": 2.979032699979143
+}

@@ -1,0 +1,15 @@
+{
+  "index": "2",
+  "video_id": "b04iTOyzEPo",
+  "youtube_url": "https://www.youtube.com/watch?v=b04iTOyzEPo",
+  "title": "أسهل طريقة لتعلم الدارجة المغربية في دقائق.",
+  "original_duration_seconds": "579.0",
+  "sample_start_seconds": "229.5",
+  "sample_end_seconds": "349.5",
+  "sample_duration_seconds": "120.0",
+  "status": "error",
+  "error": "Bad request: check the audio file and model name.",
+  "model": null,
+  "transcription": "",
+  "processing_time_seconds": 3.128333200002089
+}

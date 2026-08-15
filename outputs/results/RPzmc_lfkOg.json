@@ -1,0 +1,15 @@
+{
+  "index": "25",
+  "video_id": "RPzmc_lfkOg",
+  "youtube_url": "https://www.youtube.com/watch?v=RPzmc_lfkOg",
+  "title": "حشيان الهضرة   أمثال مغربية روعة - الجزء 1",
+  "original_duration_seconds": "373.0",
+  "sample_start_seconds": "126.5",
+  "sample_end_seconds": "246.5",
+  "sample_duration_seconds": "120.0",
+  "status": "error",
+  "error": "Bad request: check the audio file and model name.",
+  "model": null,
+  "transcription": "",
+  "processing_time_seconds": 2.7761006000218913
+}

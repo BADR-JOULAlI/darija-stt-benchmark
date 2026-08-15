@@ -1,0 +1,15 @@
+{
+  "index": "12",
+  "video_id": "E6VBWVEZJ4k",
+  "youtube_url": "https://www.youtube.com/watch?v=E6VBWVEZJ4k",
+  "title": "شاهد..هذا ما قاله مشاهير مغاربة وعرب قبل مباراة المنتخب المغربي ضد فرنسا كلمات مؤثرة",
+  "original_duration_seconds": "1958.0",
+  "sample_start_seconds": "919.0",
+  "sample_end_seconds": "1039.0",
+  "sample_duration_seconds": "120.0",
+  "status": "error",
+  "error": "Bad request: check the audio file and model name.",
+  "model": null,
+  "transcription": "",
+  "processing_time_seconds": 2.7477951000037137
+}

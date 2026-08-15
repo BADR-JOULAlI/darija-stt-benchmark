@@ -1,0 +1,15 @@
+{
+  "index": "4",
+  "video_id": "UvkYT5syIaU",
+  "youtube_url": "https://www.youtube.com/watch?v=UvkYT5syIaU",
+  "title": "الحلقة 619 من قصة حادة🔥راجلي باع ليا ولدي😱لكن الله كبير☝النهاية صادمة😳قصة حقيقية بالدارجة المغربية🇲🇦",
+  "original_duration_seconds": "5985.0",
+  "sample_start_seconds": "2932.5",
+  "sample_end_seconds": "3052.5",
+  "sample_duration_seconds": "120.0",
+  "status": "error",
+  "error": "Bad request: check the audio file and model name.",
+  "model": null,
+  "transcription": "",
+  "processing_time_seconds": 2.9592736000195146
+}

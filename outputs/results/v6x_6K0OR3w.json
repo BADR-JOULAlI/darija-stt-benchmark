@@ -1,0 +1,22 @@
+{
+  "index": "62",
+  "video_id": "v6x_6K0OR3w",
+  "youtube_url": "https://www.youtube.com/watch?v=v6x_6K0OR3w",
+  "title": "Moroccan DARIJA (An Arabic Dialect??)",
+  "original_duration_seconds": "1003.0",
+  "sample_start_seconds": "441.5",
+  "sample_end_seconds": "561.5",
+  "sample_duration_seconds": "120.0",
+  "status": "success",
+  "error": "",
+  "model": "darija-stt-solutions-2607",
+  "transcription": "This same pattern is found in amazigh. This particular word is not used in all local dialects, but there are lots of other similarly formed words, often related to occupations. Also, the reflexive in Darija directly mirrors the amazigh reflexive. أيوب شاف راسو فالمرايا. This means Ayoub saw himself in the mirror. The way himself is expressed literally means his head. In standard Arabic, this sentence would be, رأى أيوب نفسه في المرآة. In standard Arabic, a different word, nafs, is used instead of ras. One extra thing to notice here is that the standard Arabic sentence is VSO, the verb comes at the beginning, but the Darija sentence is SVO, with the subject before the verb. Now let's look at a few Moroccan Darija sentences and break them down. This sentence means, I ride the bus to school every day. كانركب الطوبيس للمدرسة كل نهار. Word for word it's, I ride the bus the school every day. In standard Arabic it would be, أنا أركب الحافلة إلى المدرسة كل يوم. First, notice that the standard Arabic sentence has a subject pronoun, while the Darija sentence doesn't. Actually, it's optional in standard Arabic as well. So, with that optional pronoun aside, notice that the first word of the sentence is different. The Moroccan word has a prefix, keh, to indicate present tense, while the standard Arabic sentence does not. Also, the standard Arabic word has the first person singular prefix, a, while the Moroccan word has, n. In standard Arabic, the prefix n would indicate first person plural. You may have also noticed that the vowel patterns of these two words are different. Next, notice this word, tobis, which comes from the French word autobus. The standard Arabic word is hafila. Both before tobis and before the next word, madrassa, we see the definite article. In standard Arabic, it's al, but in Darija, it's reduced.",
+  "language": null,
+  "usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "prompt_audio_seconds": 120
+  },
+  "processing_time_seconds": 8.634119499998633
+}

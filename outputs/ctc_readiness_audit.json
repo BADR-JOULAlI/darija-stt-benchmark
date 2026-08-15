@@ -1,0 +1,59 @@
+{
+  "project": "C:\\Users\\BadrJOULALI\\Downloads\\mistral_darija_stt_benchmark",
+  "python": "3.13.9",
+  "platform": "Windows-11-10.0.22621-SP0",
+  "git_repository": false,
+  "counts": {
+    "audio_mp3": 34,
+    "transcript_txt": 20,
+    "result_json": 35,
+    "successful_results": 20
+  },
+  "result_statuses": {
+    "success": 20,
+    "error": 15
+  },
+  "orphans": {
+    "transcript_without_success_result": [],
+    "success_result_without_transcript": [],
+    "audio_without_success_result_quarantine": [
+      "E6VBWVEZJ4k",
+      "RPzmc_lfkOg",
+      "UvkYT5syIaU",
+      "UzHsywuV99s",
+      "b04iTOyzEPo",
+      "bsNXVUZ_BC8",
+      "cdy_zCSyedg",
+      "eQzEUXZYlPU",
+      "emwN1GL21Vg",
+      "iZa06jAEi5c",
+      "jhG2y1Q2xns",
+      "ofoOMJ6DIZM",
+      "u2ODP_0Qoyk",
+      "vcyFq8u9_So"
+    ],
+    "success_result_without_audio": []
+  },
+  "historical_21_vs_20_note": "No current discrepancy: transcript IDs exactly match successful result IDs. Without version-control history, the previously observed extra file cannot be attributed reliably and no deletion is performed.",
+  "tools": {
+    "ffmpeg": "ffmpeg version 9.0-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+    "ffprobe": "ffprobe version 9.0-full_build-www.gyan.dev Copyright (c) 2007-2026 the FFmpeg developers",
+    "nvidia_smi": null
+  },
+  "device": {
+    "device": "cpu",
+    "cuda_available": false,
+    "gpu_name": null
+  },
+  "optional_packages": {
+    "torch": false,
+    "torchaudio": false,
+    "transformers": false,
+    "omnilingual_asr": false,
+    "sklearn": false
+  },
+  "security": {
+    "api_key_value_checked_or_recorded": false,
+    "mistral_api_called": false
+  }
+}

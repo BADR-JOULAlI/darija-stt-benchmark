@@ -1,0 +1,15 @@
+{
+  "index": "1",
+  "video_id": "iZa06jAEi5c",
+  "youtube_url": "https://www.youtube.com/watch?v=iZa06jAEi5c",
+  "title": "تعلم اللهجة المغربية الجزء الأول",
+  "original_duration_seconds": "424.0",
+  "sample_start_seconds": "152.0",
+  "sample_end_seconds": "272.0",
+  "sample_duration_seconds": "120.0",
+  "status": "error",
+  "error": "Bad request: check the audio file and model name.",
+  "model": null,
+  "transcription": "",
+  "processing_time_seconds": 5.014104999980191
+}

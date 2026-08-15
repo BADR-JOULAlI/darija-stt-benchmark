@@ -1,0 +1,15 @@
+{
+  "index": "11",
+  "video_id": "bsNXVUZ_BC8",
+  "youtube_url": "https://www.youtube.com/watch?v=bsNXVUZ_BC8",
+  "title": "عاجل:شاهد كلام بنكيران الذي لم يقله المعلقين و المحللين بعد فوز المغرب على كندا و هولندا",
+  "original_duration_seconds": "1857.0",
+  "sample_start_seconds": "868.5",
+  "sample_end_seconds": "988.5",
+  "sample_duration_seconds": "120.0",
+  "status": "error",
+  "error": "Bad request: check the audio file and model name.",
+  "model": null,
+  "transcription": "",
+  "processing_time_seconds": 3.610919400001876
+}

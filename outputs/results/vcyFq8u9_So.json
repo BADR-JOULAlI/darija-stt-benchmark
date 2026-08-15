@@ -1,0 +1,15 @@
+{
+  "index": "22",
+  "video_id": "vcyFq8u9_So",
+  "youtube_url": "https://www.youtube.com/watch?v=vcyFq8u9_So",
+  "title": "أحسن مقلد لهجات في المغرب عاد إليكم من جديد 🤪😍",
+  "original_duration_seconds": "127.0",
+  "sample_start_seconds": "3.5",
+  "sample_end_seconds": "123.5",
+  "sample_duration_seconds": "120.0",
+  "status": "error",
+  "error": "Bad request: check the audio file and model name.",
+  "model": null,
+  "transcription": "",
+  "processing_time_seconds": 3.100736499996856
+}

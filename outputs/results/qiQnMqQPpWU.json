@@ -1,0 +1,22 @@
+{
+  "index": "78",
+  "video_id": "qiQnMqQPpWU",
+  "youtube_url": "https://www.youtube.com/watch?v=qiQnMqQPpWU",
+  "title": "Learning The Moroccan Arabic Dialect Darija!",
+  "original_duration_seconds": "642.0",
+  "sample_start_seconds": "261.0",
+  "sample_end_seconds": "381.0",
+  "sample_duration_seconds": "120.0",
+  "status": "success",
+  "error": "",
+  "model": "darija-stt-solutions-2607",
+  "transcription": "Times a day. Yeah, so it's positive thinking, right? Exactly, yeah. Cool, I like that. And how would you say, so nobody says, I'm not really good or I'm not feeling well. Nobody says that. No, I mean, it's very rare. I think because people always push themselves to feel better. I don't know if it's just people around me in Morocco or it's the culture, but And it comes from religion usually, like the positivity and, you know, the faith, it's strong. Perfect. Yeah. Okay, let's give a short break to my brain and get to know you a little bit more. So we know each other from dancing, right? We do. What did we dance? Salsa, bachata? No, the first time we met at Latin group. Correct, yes. We met at a swing class. A swing class? We did swing. Oh, wow. Yes. That was a long time ago. I never thought I'd do swing, but I swung by the swing class. Yeah, but you also mentioned that you were doing some extra work in movies and TV shows. Yeah, I'm part of Uptown Crew. Oh yeah, cool. The collective. So we're a group of women from different backgrounds. So it's only women? Yeah, I think it's, no, it's meant to be. Yeah, and so we did a play that went on even to Fringe. Fringe, it's a festival. Cool. And yeah. Good for you. Congratulations. Thank you. It's fun. Okay, now back to learning Moroccan Arabic. How would you say thank you? Thank you. I think it's similar to all Arab countries. You say شكرا. شكرا, okay. Okay. Then, you know, there's like street talk. Like there's so many ways of saying it, but شكرا is... It's universal. How would you say in a street talk? I mean, in my generation, I'm not that old, but I know language changes in Morocco, like the street language every 10 years. But like when I was in high school, we used to say, لحفتك لحفتك لحفتك it means it's thank you but literally it means God protect you oh wow it's intense yeah but when you say it you don't think of it that way it's kind of like a quick I'm cool okay yeah it's like",
+  "language": null,
+  "usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "prompt_audio_seconds": 120
+  },
+  "processing_time_seconds": 9.119427999998152
+}
