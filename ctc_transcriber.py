@@ -29,12 +29,14 @@ from utils import read_json, write_json
 
 DEFAULT_MODEL = "facebook/omniASR-CTC-300M"
 MODEL_SPECS = {
-    "facebook/omniASR-CTC-300M": ("omnilingual", "omniASR_CTC_300M"),
-    "facebook/omniASR-CTC-1B": ("omnilingual", "omniASR_CTC_1B"),
-    "facebook/omniASR-CTC-3B": ("omnilingual", "omniASR_CTC_3B"),
-    "facebook/omniASR-CTC-7B": ("omnilingual", "omniASR_CTC_7B"),
+    "facebook/omniASR-CTC-300M": ("omnilingual", "omniASR_CTC_300M_v2"),
+    "facebook/omniASR-CTC-1B": ("omnilingual", "omniASR_CTC_1B_v2"),
+    "facebook/omniASR-CTC-3B": ("omnilingual", "omniASR_CTC_3B_v2"),
+    "facebook/omniASR-CTC-7B": ("omnilingual", "omniASR_CTC_7B_v2"),
     "boumehdi/wav2vec2-large-xlsr-moroccan-darija": ("transformers", None),
 }
+OMNILINGUAL_CHUNK_SECONDS = 30.0
+TRANSFORMERS_CHUNK_SECONDS = 30.0
 ANNOTATION_FIELDS = [
     "segment_id", "video_id", "audio_path", "mistral_transcript", "ctc_transcript",
     "cer_agreement", "wer_agreement", "character_similarity", "word_similarity",
@@ -78,6 +80,23 @@ def detect_device() -> DeviceInfo:
     )
 
 
+def validate_cuda_build(device: DeviceInfo) -> None:
+    """Reject PyTorch builds that cannot execute kernels on RTX 50-series GPUs."""
+    if not device.cuda_available:
+        return
+    try:
+        import torch
+        capability = tuple(torch.cuda.get_device_capability(0))
+        supported_arches = set(torch.cuda.get_arch_list())
+    except (ImportError, RuntimeError, AttributeError):
+        return
+    if capability >= (12, 0) and "sm_120" not in supported_arches:
+        raise CTCError(
+            "The installed PyTorch build does not support RTX 50-series GPUs (sm_120). "
+            "Install matching torch/torchaudio wheels built with CUDA 12.8 or newer."
+        )
+
+
 class OmnilingualBackend:
     def __init__(self, model: str, language: str, device: DeviceInfo):
         try:
@@ -88,21 +107,61 @@ class OmnilingualBackend:
             ) from exc
         _, model_card = MODEL_SPECS[model]
         try:
-            self.pipeline = ASRInferencePipeline(model_card=model_card)
+            self.pipeline = ASRInferencePipeline(
+                model_card=model_card,
+                device=device.device,
+            )
         except Exception as exc:
             raise CTCError(f"Could not load CTC model: {type(exc).__name__}") from exc
         self.language = language
 
+    @staticmethod
+    def _decode_chunks(path: Path) -> list[dict[str, Any]]:
+        """Decode an audio file and split it below OmniASR's 40-second limit."""
+        try:
+            import soundfile
+            waveform, sample_rate = soundfile.read(
+                str(path), dtype="float32", always_2d=True
+            )
+        except (ImportError, OSError, RuntimeError) as exc:
+            raise CTCError(
+                "Could not decode audio for OmniASR. Install soundfile and ensure "
+                "the bundled libsndfile can read MP3 files."
+            ) from exc
+        if sample_rate <= 0 or len(waveform) == 0:
+            raise CTCError(f"Decoded audio is empty: {path.name}")
+        mono = waveform.mean(axis=1)
+        chunk_frames = max(1, int(sample_rate * OMNILINGUAL_CHUNK_SECONDS))
+        return [
+            {
+                "waveform": mono[start:start + chunk_frames].copy(),
+                "sample_rate": sample_rate,
+            }
+            for start in range(0, len(mono), chunk_frames)
+        ]
+
     def transcribe_batch(self, paths: list[Path], batch_size: int) -> list[CTCOutput]:
+        audio_chunks: list[dict[str, Any]] = []
+        chunk_owners: list[int] = []
+        for owner, path in enumerate(paths):
+            chunks = self._decode_chunks(path)
+            audio_chunks.extend(chunks)
+            chunk_owners.extend([owner] * len(chunks))
         try:
             texts = self.pipeline.transcribe(
-                [str(path) for path in paths],
-                lang=[self.language] * len(paths),
-                batch_size=batch_size,
+                audio_chunks,
+                batch_size=max(1, batch_size),
             )
         except Exception as exc:
             raise CTCError(f"CTC inference failed: {type(exc).__name__}") from exc
-        return [CTCOutput(text=str(text or "").strip()) for text in texts]
+        if len(texts) != len(audio_chunks):
+            raise CTCError("OmniASR returned an unexpected number of audio chunks.")
+        grouped: list[list[str]] = [[] for _ in paths]
+        for owner, text in zip(chunk_owners, texts):
+            cleaned = str(text or "").strip()
+            if cleaned:
+                grouped[owner].append(cleaned)
+        return [CTCOutput(text=" ".join(parts)) for parts in grouped]
 
 
 class TransformersCTCBackend:
@@ -125,40 +184,77 @@ class TransformersCTCBackend:
         except Exception as exc:
             raise CTCError(f"Could not load Transformers CTC model: {type(exc).__name__}") from exc
 
-    def _load(self, path: Path):
-        waveform, rate = self.torchaudio.load(str(path))
-        waveform = waveform.mean(dim=0)
+    def _load_chunks(self, path: Path) -> list[Any]:
+        try:
+            import soundfile
+            waveform, rate = soundfile.read(
+                str(path), dtype="float32", always_2d=True
+            )
+        except (ImportError, OSError, RuntimeError) as exc:
+            raise CTCError(f"Could not decode audio: {path.name}") from exc
+        waveform = self.torch.from_numpy(waveform.mean(axis=1))
         if rate != 16_000:
             waveform = self.torchaudio.functional.resample(waveform, rate, 16_000)
-        return waveform.numpy()
+        chunk_frames = int(16_000 * TRANSFORMERS_CHUNK_SECONDS)
+        return [
+            waveform[start:start + chunk_frames].numpy()
+            for start in range(0, len(waveform), chunk_frames)
+        ]
 
     def transcribe_batch(self, paths: list[Path], batch_size: int) -> list[CTCOutput]:
-        del batch_size
         try:
-            audio = [self._load(path) for path in paths]
-            inputs = self.processor(audio, sampling_rate=16_000, return_tensors="pt", padding=True)
-            input_values = inputs.input_values.to(self.device)
-            attention_mask = getattr(inputs, "attention_mask", None)
-            if attention_mask is not None:
-                attention_mask = attention_mask.to(self.device)
-            with self.torch.inference_mode():
-                logits = self.model(input_values, attention_mask=attention_mask).logits
-            probabilities = logits.softmax(dim=-1)
-            max_probabilities, token_ids = probabilities.max(dim=-1)
-            texts = self.processor.batch_decode(token_ids)
+            chunks: list[Any] = []
+            owners: list[int] = []
+            for owner, path in enumerate(paths):
+                path_chunks = self._load_chunks(path)
+                chunks.extend(path_chunks)
+                owners.extend([owner] * len(path_chunks))
+            grouped_texts: list[list[str]] = [[] for _ in paths]
+            grouped_confidence: list[list[float]] = [[] for _ in paths]
+            grouped_blank_rate: list[list[float]] = [[] for _ in paths]
             blank_id = getattr(self.model.config, "pad_token_id", None)
-            outputs: list[CTCOutput] = []
-            for index, text in enumerate(texts):
-                ids = token_ids[index]
-                probs = max_probabilities[index]
-                if blank_id is None:
-                    confidence = float(probs.mean().item())
-                    blank_rate = None
-                else:
-                    non_blank = ids != blank_id
-                    confidence = float(probs[non_blank].mean().item()) if non_blank.any() else 0.0
-                    blank_rate = float((~non_blank).float().mean().item())
-                outputs.append(CTCOutput(str(text or "").strip(), confidence, blank_rate))
+            step = max(1, batch_size)
+            for start in range(0, len(chunks), step):
+                chunk_batch = chunks[start:start + step]
+                inputs = self.processor(
+                    chunk_batch, sampling_rate=16_000, return_tensors="pt", padding=True
+                )
+                input_values = inputs.input_values.to(self.device)
+                attention_mask = getattr(inputs, "attention_mask", None)
+                if attention_mask is not None:
+                    attention_mask = attention_mask.to(self.device)
+                with self.torch.inference_mode():
+                    logits = self.model(input_values, attention_mask=attention_mask).logits
+                probabilities = logits.softmax(dim=-1)
+                max_probabilities, token_ids = probabilities.max(dim=-1)
+                texts = self.processor.batch_decode(token_ids)
+                for offset, text in enumerate(texts):
+                    owner = owners[start + offset]
+                    ids = token_ids[offset]
+                    probs = max_probabilities[offset]
+                    if blank_id is None:
+                        confidence = float(probs.mean().item())
+                    else:
+                        non_blank = ids != blank_id
+                        confidence = (
+                            float(probs[non_blank].mean().item()) if non_blank.any() else 0.0
+                        )
+                        grouped_blank_rate[owner].append(
+                            float((~non_blank).float().mean().item())
+                        )
+                    cleaned = str(text or "").strip()
+                    if cleaned:
+                        grouped_texts[owner].append(cleaned)
+                    grouped_confidence[owner].append(confidence)
+            outputs = []
+            for owner in range(len(paths)):
+                confidences = grouped_confidence[owner]
+                blank_rates = grouped_blank_rate[owner]
+                outputs.append(CTCOutput(
+                    text=" ".join(grouped_texts[owner]),
+                    confidence=sum(confidences) / len(confidences) if confidences else None,
+                    blank_rate=sum(blank_rates) / len(blank_rates) if blank_rates else None,
+                ))
             return outputs
         except CTCError:
             raise
@@ -270,6 +366,8 @@ def run_ctc_pipeline(
     device = detect_device()
     if not device.cuda_available and not allow_cpu and backend is None:
         raise CTCError("CUDA GPU not detected. Re-run with --allow-cpu only for a deliberate small test.")
+    if backend is None:
+        validate_cuda_build(device)
     samples = discover_successful_samples()
     if limit > 0:
         samples = samples[:limit]

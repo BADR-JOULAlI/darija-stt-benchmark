@@ -78,9 +78,15 @@ Exécutez dans l'ordre :
 3. configurez les variables ci-dessous vous-même ;
 4. `notebooks/02_run_mistral_benchmark.ipynb`
 
+Si le SQLite se trouve sur une autre machine mais que `audio/` contient déjà
+les extraits, ouvrez directement les notebooks 01 et 02 dans leur nouveau mode
+**audios existants**. Ce mode ne lit pas le SQLite, ne contacte pas YouTube et
+ne nécessite ni `yt-dlp` ni FFmpeg. Le notebook 02 sélectionne par défaut un
+seul audio sans résultat Mistral réussi afin de limiter le coût du test API.
+
 La préparation audio n'appelle jamais Mistral. Seul le troisième notebook effectue des appels authentifiés.
 
-## Configuration Mistral — à faire vous-même après le travail de Codex
+## Configuration Mistral — à faire localement
 
 Dans le PowerShell séparé qui lancera Jupyter, saisissez vous-même :
 
@@ -132,7 +138,20 @@ Documentation utilisée : [transcription hors ligne Mistral](https://docs.mistra
 
 Cette phase n'appelle pas l'API Mistral. Elle réutilise uniquement les résultats `status: success` déjà présents dans `outputs/results/`.
 
-Le modèle pilote est `facebook/omniASR-CTC-300M`. Les variantes 1B, 3B et 7B sont déclarées dans l'interface, mais ne sont jamais téléchargées automatiquement. Le modèle `boumehdi/wav2vec2-large-xlsr-moroccan-darija` est également disponible comme baseline Transformers.
+Le modèle pilote est `facebook/omniASR-CTC-300M`, résolu vers la carte
+`omniASR_CTC_300M_v2`. Les variantes 1B, 3B et 7B sont déclarées dans
+l'interface, mais ne sont jamais téléchargées automatiquement. Le modèle
+`boumehdi/wav2vec2-large-xlsr-moroccan-darija` est également disponible comme
+baseline Transformers.
+
+OmniASR dépend de `fairseq2n`, qui ne fournit pas de wheel Windows natif. Sous
+Windows, utilisez la baseline Transformers ci-dessus. Pour OmniASR, utilisez
+Linux ou une distribution WSL2 (Ubuntu) avec accès GPU.
+
+Les extraits de 120 secondes sont automatiquement découpés en blocs de 30
+secondes avant l'inférence, puis les transcriptions sont fusionnées. Cela
+respecte la limite de 40 secondes du pipeline OmniASR non streaming et réduit
+la consommation VRAM de la baseline Transformers.
 
 ### Nouveaux composants
 
@@ -162,6 +181,18 @@ Installez d'abord la version de PyTorch correspondant au pilote CUDA avec le sé
 pip install -r requirements-ctc.txt
 ```
 
+Pour une RTX 50xx (`sm_120`), utilisez une distribution PyTorch compilée avec
+CUDA 12.8 ou plus récent. Exemple conservateur avec un pilote CUDA 12.9 :
+
+```powershell
+pip install torch==2.11.0 torchaudio==2.11.0 --index-url https://download.pytorch.org/whl/cu128
+pip install -r requirements.txt
+pip install -r requirements-ctc.txt
+```
+
+Le pilote CTC vérifie explicitement que `sm_120` figure dans les architectures
+prises en charge par PyTorch avant de télécharger le modèle.
+
 Vérifiez :
 
 ```powershell
@@ -178,8 +209,10 @@ Le code refuse par défaut l'inférence lourde si CUDA n'est pas détecté. `--a
 Commencez par un seul audio :
 
 ```powershell
-python ctc_transcriber.py --model facebook/omniASR-CTC-300M --limit 1 --batch-size 1
+python ctc_transcriber.py --model boumehdi/wav2vec2-large-xlsr-moroccan-darija --limit 1 --batch-size 1
 ```
+
+Sous Linux/WSL2, remplacez le modèle par `facebook/omniASR-CTC-300M`.
 
 Après validation du premier résultat, passez au maximum à trois :
 

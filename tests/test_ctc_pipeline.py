@@ -8,7 +8,8 @@ from unittest.mock import patch
 import ctc_transcriber
 from calibrate_threshold import CalibrationError, load_annotated_rows, split_by_video_id
 from ctc_transcriber import (
-    CTCError, CTCOutput, DeviceInfo, prepare_annotation_template, run_ctc_pipeline,
+    CTCError, CTCOutput, DeviceInfo, OmnilingualBackend,
+    prepare_annotation_template, run_ctc_pipeline, validate_cuda_build,
 )
 from quality_scorer import cer, compare_transcripts, wer
 from text_normalizer import NormalizationConfig, normalize_text
@@ -147,6 +148,51 @@ class PipelineTests(unittest.TestCase):
             device = ctc_transcriber.detect_device()
         self.assertFalse(device.cuda_available)
         self.assertEqual(device.device, "cpu")
+
+    def test_omnilingual_backend_chunks_and_merges_long_audio(self):
+        class FakePipeline:
+            def __init__(self):
+                self.inputs = None
+                self.kwargs = None
+
+            def transcribe(self, inputs, **kwargs):
+                self.inputs = inputs
+                self.kwargs = kwargs
+                return ["first", "second", "third"]
+
+        backend = OmnilingualBackend.__new__(OmnilingualBackend)
+        backend.pipeline = FakePipeline()
+        backend.language = "ary_Arab"
+        backend._decode_chunks = lambda path: (
+            [{"waveform": [0.0], "sample_rate": 16_000}] *
+            (2 if path.stem == "long" else 1)
+        )
+
+        outputs = backend.transcribe_batch(
+            [Path("long.mp3"), Path("short.mp3")], batch_size=1
+        )
+
+        self.assertEqual([output.text for output in outputs], ["first second", "third"])
+        self.assertEqual(len(backend.pipeline.inputs), 3)
+        self.assertEqual(backend.pipeline.kwargs, {"batch_size": 1})
+
+    def test_rtx_50_series_rejects_incompatible_torch_build(self):
+        class FakeCuda:
+            @staticmethod
+            def get_device_capability(index):
+                self.assertEqual(index, 0)
+                return (12, 0)
+
+            @staticmethod
+            def get_arch_list():
+                return ["sm_90"]
+
+        class FakeTorch:
+            cuda = FakeCuda()
+
+        with patch.dict("sys.modules", {"torch": FakeTorch()}):
+            with self.assertRaisesRegex(CTCError, "sm_120"):
+                validate_cuda_build(DeviceInfo("cuda", True, "RTX 5070"))
 
 
 class CalibrationTests(unittest.TestCase):

@@ -1,15 +1,23 @@
 {
-  "index": "10",
+  "index": 8,
   "video_id": "ofoOMJ6DIZM",
   "youtube_url": "https://www.youtube.com/watch?v=ofoOMJ6DIZM",
   "title": "تعلم اللهجة المغربية في 5 أيام (الجزء 1)",
   "original_duration_seconds": "525.0",
   "sample_start_seconds": "202.5",
   "sample_end_seconds": "322.5",
-  "sample_duration_seconds": "120.0",
-  "status": "error",
-  "error": "Bad request: check the audio file and model name.",
-  "model": null,
-  "transcription": "",
-  "processing_time_seconds": 3.4626302999968175
+  "sample_duration_seconds": 120.0,
+  "status": "success",
+  "error": "",
+  "model": "voxtral-mini-2602",
+  "transcription": "أنا مع خوي. إنها معجزة إنها معجزة معجزة هي معجزة هي أو يمكنني أيضا قول هذه معجزة معنى هذه معجزة هذه معجزة هذا رائع هذا شيء مزيان هذا شيء مزيان ويمكنني قول كذلك هذا شيء واعر رائع واعر أو مزيانإنها هدية هذا كادو هذا كادو هنا كلمة كادو هي كلمة فرنسية وتستخدم في اللهجة المغربية فكما قلت لكم من قبل فهناك كلمات فرنسية وكلمات إسبانية تستخدم في اللهجة المغربية بالنسبة لكادو فهي كلمة مذكرة لهذا لم أستعمل لهذا قمت باستعمال هذا وليس هذه هذا هذا كادوإنها غالية جدا إنها غالية جدا معناها راها غالية بزاف راها غالية بزاف أو يمكن قول راه غالية بزاف راه غالية بزاف إنه دورك. هادي نبتك",
+  "language": null,
+  "usage": {
+    "prompt_tokens": 12,
+    "completion_tokens": 189,
+    "total_tokens": 201,
+    "prompt_audio_seconds": 118,
+    "request_count": 4
+  },
+  "processing_time_seconds": 2.0973494999925606
 }

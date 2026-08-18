@@ -1,8 +1,8 @@
 {
-  "project": "C:\\Users\\BadrJOULALI\\Downloads\\mistral_darija_stt_benchmark",
-  "python": "3.13.9",
-  "platform": "Windows-11-10.0.22621-SP0",
-  "git_repository": false,
+  "project": ".",
+  "python": "3.11.15",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "git_repository": true,
   "counts": {
     "audio_mp3": 34,
     "transcript_txt": 20,
@@ -36,21 +36,21 @@
   },
   "historical_21_vs_20_note": "No current discrepancy: transcript IDs exactly match successful result IDs. Without version-control history, the previously observed extra file cannot be attributed reliably and no deletion is performed.",
   "tools": {
-    "ffmpeg": "ffmpeg version 9.0-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
-    "ffprobe": "ffprobe version 9.0-full_build-www.gyan.dev Copyright (c) 2007-2026 the FFmpeg developers",
-    "nvidia_smi": null
+    "ffmpeg": null,
+    "ffprobe": null,
+    "nvidia_smi": "NVIDIA-SMI version  : 577.05"
   },
   "device": {
-    "device": "cpu",
-    "cuda_available": false,
-    "gpu_name": null
+    "device": "cuda",
+    "cuda_available": true,
+    "gpu_name": "NVIDIA GeForce RTX 5070 Laptop GPU"
   },
   "optional_packages": {
-    "torch": false,
-    "torchaudio": false,
-    "transformers": false,
+    "torch": true,
+    "torchaudio": true,
+    "transformers": true,
     "omnilingual_asr": false,
-    "sklearn": false
+    "sklearn": true
   },
   "security": {
     "api_key_value_checked_or_recorded": false,

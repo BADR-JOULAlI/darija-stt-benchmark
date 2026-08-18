@@ -1,7 +1,10 @@
 # Install this file only on the machine selected for CTC inference/calibration.
 # GPU builds of torch/torchaudio should follow the official PyTorch selector.
-omnilingual-asr
+# fairseq2n, required by OmniASR, does not publish native Windows wheels.
+# Windows uses the Transformers Darija baseline; OmniASR remains available on Linux/WSL2.
+omnilingual-asr; platform_system != "Windows"
 torch>=2.6
 torchaudio>=2.6
 transformers>=4.48
 scikit-learn>=1.6
+soundfile>=0.13

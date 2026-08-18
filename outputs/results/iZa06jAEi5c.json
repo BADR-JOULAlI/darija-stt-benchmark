@@ -1,15 +1,23 @@
 {
-  "index": "1",
+  "index": 6,
   "video_id": "iZa06jAEi5c",
   "youtube_url": "https://www.youtube.com/watch?v=iZa06jAEi5c",
   "title": "تعلم اللهجة المغربية الجزء الأول",
   "original_duration_seconds": "424.0",
   "sample_start_seconds": "152.0",
   "sample_end_seconds": "272.0",
-  "sample_duration_seconds": "120.0",
-  "status": "error",
-  "error": "Bad request: check the audio file and model name.",
-  "model": null,
-  "transcription": "",
-  "processing_time_seconds": 5.014104999980191
+  "sample_duration_seconds": 120.0,
+  "status": "success",
+  "error": "",
+  "model": "voxtral-mini-2602",
+  "transcription": "نفس المعنى وهو أنا أتكلم كان هدر معاك أنا أتكلم معاك علاش علاش علاش يعني ماذا لماذا علاش لماذا مش لماذا علاش لماذا علاش لماذا ليش بزااف كتير بزااف تعني كتير كان بغيكم بزااف وحبكم كتيرا كان بغيكم بزااف اشنو كتدير اشنو كتدير ماذا تفعل اشنو كتدير ماذا تفعل عيط عيط ليه اتصل به عيط ليه اتصل به ساروت ساروت المفتاح سوارط المفاتيح ساروت جمعها السوارط ساروت مفتاح مفتاح مفتاح الباب مفتاح السيارة الساروت السوارط الساروت سوارط مفاتيح الحيت الحائط الحيت الحائط الشرجم الشرجم هو النافذة الشرجم النافذة زوين زوين زوين جميل زوين جميل يعني للذكر زوين جميل جميلزوينة أو جميلة زوينة للأنت زوينة جميلة تعني جميلة خيب خيب تعني قبيح خيبة تعني قبيحة مروين مروين أو مروينة مروين أو مروينة مروين مروين لذكر مروينة للأنت تعني شخص غير مرتب شوف شوف شوف هي",
+  "language": null,
+  "usage": {
+    "prompt_tokens": 6,
+    "completion_tokens": 251,
+    "total_tokens": 257,
+    "prompt_audio_seconds": 120,
+    "request_count": 2
+  },
+  "processing_time_seconds": 1.9575885999947786
 }

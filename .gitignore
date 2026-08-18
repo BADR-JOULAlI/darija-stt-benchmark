@@ -14,6 +14,8 @@ outputs/*
 !outputs/.gitkeep
 !outputs/*.csv
 !outputs/*.json
+outputs/ctc_human_annotations*.csv
+outputs/ctc_calibration_report*.json
 !outputs/transcripts/
 !outputs/results/
 !outputs/transcripts/.gitkeep

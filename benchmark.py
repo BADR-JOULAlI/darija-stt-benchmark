@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import csv
 import time
 from pathlib import Path
 from typing import Any
@@ -27,6 +28,55 @@ SUMMARY_FIELDS = [
     "sample_start_seconds", "sample_end_seconds", "sample_duration_seconds", "status",
     "processing_time_seconds", "transcript_file", "error",
 ]
+
+
+def discover_existing_audio_samples(
+    *, limit: int = 0, pending_only: bool = False
+) -> list[dict[str, Any]]:
+    """Build benchmark rows from the MP3 files already stored in ``audio/``.
+
+    This mode deliberately bypasses the source dataset, YouTube and FFmpeg. It
+    is useful when the SQLite database lives on another machine or downloads
+    are temporarily blocked. Metadata is reused from ``selected_videos.csv``
+    when available; the audio filename remains the authoritative video ID.
+    """
+    ensure_directories()
+    manifest: dict[str, dict[str, str]] = {}
+    if SELECTED_VIDEOS_CSV.exists():
+        with SELECTED_VIDEOS_CSV.open("r", encoding="utf-8-sig", newline="") as handle:
+            for row in csv.DictReader(handle):
+                video_id = str(row.get("video_id") or "").strip()
+                if video_id:
+                    manifest[video_id] = row
+
+    samples: list[dict[str, Any]] = []
+    for audio_path in sorted(AUDIO_DIR.glob("*.mp3")):
+        if not audio_path.is_file() or audio_path.stat().st_size <= 0:
+            continue
+        video_id = audio_path.stem
+        result_path = RESULTS_DIR / f"{video_id}.json"
+        if pending_only and result_path.exists():
+            try:
+                if read_json(result_path).get("status") == "success":
+                    continue
+            except (OSError, ValueError):
+                pass
+        previous = manifest.get(video_id, {})
+        samples.append({
+            "index": len(samples) + 1,
+            "video_id": video_id,
+            "youtube_url": previous.get("youtube_url", ""),
+            "title": previous.get("title", ""),
+            "original_duration_seconds": previous.get("original_duration_seconds", ""),
+            "sample_start_seconds": previous.get("sample_start_seconds", ""),
+            "sample_end_seconds": previous.get("sample_end_seconds", ""),
+            "sample_duration_seconds": SAMPLE_DURATION_SECONDS,
+            "status": "selected",
+            "error": "",
+        })
+        if limit > 0 and len(samples) >= limit:
+            break
+    return samples
 
 
 def prepare_samples(dataset_path: str | Path, target_count: int = DEFAULT_SAMPLE_COUNT) -> list[dict[str, Any]]:
@@ -149,7 +199,6 @@ def print_terminal_summary(summary: list[dict[str, Any]], requested: int) -> Non
     total_time = sum(times)
     selection_attempts: list[dict[str, Any]] = []
     if SELECTED_VIDEOS_CSV.exists():
-        import csv
         with SELECTED_VIDEOS_CSV.open("r", encoding="utf-8-sig", newline="") as handle:
             selection_attempts = list(csv.DictReader(handle))
     too_short = sum(row.get("status") == "too_short" for row in selection_attempts)

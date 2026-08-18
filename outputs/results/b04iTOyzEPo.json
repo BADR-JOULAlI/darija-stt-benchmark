@@ -1,15 +1,23 @@
 {
-  "index": "2",
+  "index": 1,
   "video_id": "b04iTOyzEPo",
   "youtube_url": "https://www.youtube.com/watch?v=b04iTOyzEPo",
   "title": "أسهل طريقة لتعلم الدارجة المغربية في دقائق.",
   "original_duration_seconds": "579.0",
   "sample_start_seconds": "229.5",
   "sample_end_seconds": "349.5",
-  "sample_duration_seconds": "120.0",
-  "status": "error",
-  "error": "Bad request: check the audio file and model name.",
-  "model": null,
-  "transcription": "",
-  "processing_time_seconds": 3.128333200002089
+  "sample_duration_seconds": 120.0,
+  "status": "success",
+  "error": "",
+  "model": "voxtral-mini-2602",
+  "transcription": "ملي حينا ملي حينا من اللي تبغي حين تريد من اللي تبغي حين تريد ممسليش ليس لدي وقت ممسليش ليس لدي وقت شحال كم شحال كم شحلف عمرك؟ كم عمرك؟سليت انتهيت سليت انتهيت أجي تعالق أجي تعالق سقسي أو سول اسأل خليني اتركني خليني اتركنيصدعتني أزعجتني أو أقلقتني أحمق مصطى أحمق أرى. هات. أرى. هات. بلسق مكان بلسق مكان حويجي ملابسي أو أغراضيبرزطتني أزعجتني خلعتني أرعبتني أو خوفتني",
+  "language": null,
+  "usage": {
+    "prompt_tokens": 12,
+    "completion_tokens": 150,
+    "total_tokens": 162,
+    "prompt_audio_seconds": 118,
+    "request_count": 4
+  },
+  "processing_time_seconds": 1.5508471999928588
 }
