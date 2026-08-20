@@ -1,8 +1,8 @@
 # Benchmark Mistral STT sur des vidéos YouTube en Darija
 
-Proof of Concept indépendant, sans frontend, Docker ni base propre. Il lit uniquement les liens déjà collectés dans le projet `darija_youtube_extraction`, prépare 20 extraits audio de 120 secondes pris au milieu des vidéos, puis les transcrit avec l'API officielle Mistral.
+Proof of Concept indépendant. Il lit uniquement les liens déjà collectés dans le projet `darija_youtube_extraction`, prépare 20 extraits audio de 120 secondes pris au milieu des vidéos, puis les transcrit avec l'API officielle Mistral.
 
-Le dataset source n'est jamais modifié. Les connexions SQLite sont ouvertes avec `mode=ro` (lecture seule), et aucune nouvelle vidéo n'est recherchée sur YouTube.
+Les connexions SQLite sont ouvertes avec `mode=ro` (lecture seule), et aucune nouvelle vidéo n'est recherchée sur YouTube.
 
 ## Dataset réellement identifié
 
