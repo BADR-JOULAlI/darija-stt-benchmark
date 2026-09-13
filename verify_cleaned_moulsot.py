@@ -17,6 +17,13 @@ REQUIRED_COLUMNS = {
 }
 
 
+def as_bool(series: pd.Series) -> pd.Series:
+    return series.map(
+        lambda value: value if isinstance(value, bool)
+        else str(value).strip().lower() in {"true", "1", "yes"}
+    )
+
+
 def verify(repo_id: str, filename: str, token: str | None) -> dict:
     path = hf_hub_download(
         repo_id=repo_id,
@@ -31,7 +38,7 @@ def verify(repo_id: str, filename: str, token: str | None) -> dict:
 
     text = frame["training_text"].fillna("").astype(str).str.strip()
     original = frame["original_text"].fillna("").astype(str).str.strip()
-    ready = frame["training_ready"].fillna(False).astype(bool)
+    ready = as_bool(frame["training_ready"].fillna(False))
     duration = pd.to_numeric(frame["duration"], errors="coerce")
     changed = original != text
     report = {
@@ -48,8 +55,8 @@ def verify(repo_id: str, filename: str, token: str | None) -> dict:
         "empty_original_text_rows": int((original == "").sum()),
         "changed_training_text_rows": int(changed.sum()),
         "changed_and_ready_rows": int((changed & ready).sum()),
-        "code_switch_rows": int(frame["latin_code_switch_present"].fillna(False).astype(bool).sum()),
-        "code_switch_and_ready_rows": int((frame["latin_code_switch_present"].fillna(False).astype(bool) & ready).sum()),
+        "code_switch_rows": int(as_bool(frame["latin_code_switch_present"].fillna(False)).sum()),
+        "code_switch_and_ready_rows": int((as_bool(frame["latin_code_switch_present"].fillna(False)) & ready).sum()),
         "duration_invalid_rows": int(duration.isna().sum()),
         "duration_zero_or_negative_rows": int((duration <= 0).fillna(False).sum()),
         "duration_seconds": {
